@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { loginData } from "../test-data/login.data";
 import { LoginPage } from "../pages/login.page";
+import { PulpitPage } from "../pages/pulpit.page";
 
 test.describe("User login to Demobank", () => {
   test.beforeEach(async ({ page }) => {
@@ -16,7 +17,9 @@ test.describe("User login to Demobank", () => {
     await loginPage.passwordInput.fill(userPassword);
     await loginPage.loginButton.click();
 
-    await expect(page.getByTestId("user-name")).toHaveText(expectedUserName);
+    const pulpitPage = new PulpitPage(page);
+
+    await expect(pulpitPage.userNameText).toHaveText(expectedUserName);
   });
 
   test("unsuccessful login with too short username", async ({ page }) => {
@@ -43,8 +46,6 @@ test.describe("User login to Demobank", () => {
     await page.getByTestId("password-input").fill(incorrectUserPassword);
     await page.getByTestId("password-input").blur();
 
-    await expect(loginPage.passwordError).toHaveText(
-      expectedErrorMessage,
-    );
+    await expect(loginPage.passwordError).toHaveText(expectedErrorMessage);
   });
 });
