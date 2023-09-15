@@ -6,6 +6,7 @@ import { paymentData } from "../test-data/payment.data";
 import { PulpitPage } from "../pages/pulpit.page";
 
 test.describe("Payment tests", () => {
+  let paymentsPage: PaymentPage;
   test.beforeEach(async ({ page }) => {
     const url = "https://demo-bank.vercel.app/";
     const userId = loginData.userId;
@@ -13,12 +14,11 @@ test.describe("Payment tests", () => {
 
     await page.goto(url);
     const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+    await loginPage.login(userId, userPassword);
     const pulpitPage = new PulpitPage(page);
 
     await pulpitPage.sideMenu.paymantButton.click();
+    paymentsPage = new PaymentPage(page);
   });
   test("simple payment", async ({ page }) => {
     const transferReceiver = paymentData.transferReceiver;
@@ -26,12 +26,11 @@ test.describe("Payment tests", () => {
     const transferAmount = paymentData.transferAmount;
     const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jan Nowak`;
 
-    const paymentsPage = new PaymentPage(page);
-    await paymentsPage.transferReceiverInput.fill(transferReceiver);
-    await paymentsPage.accountNumberInput.fill(accountNumber);
-    await paymentsPage.transferAmountInput.fill(transferAmount);
-    await paymentsPage.executeButton.click();
-    await paymentsPage.closePaymentModalButton.click();
+    await paymentsPage.makeTransfer(
+      transferReceiver,
+      accountNumber,
+      transferAmount,
+    );
 
     await expect(paymentsPage.messageText).toHaveText(expectedMessage);
   });
