@@ -36,12 +36,61 @@ test.describe("User login to Demobank", () => {
     const expectedErrorMessage = "hasło ma min. 8 znaków";
     await loginPage.loginInput.fill(userId);
     await loginPage.passwordInput.fill(incorrectUserPassword);
-    await loginPage.loginInput.blur();
 
     await page.getByTestId("login-input").fill(userId);
     await page.getByTestId("password-input").fill(incorrectUserPassword);
     await page.getByTestId("password-input").blur();
 
     await expect(loginPage.passwordError).toHaveText(expectedErrorMessage);
+  });
+
+  test("unsuccessful login with empty login and correct password", async ({
+    page,
+  }) => {
+    const emptyUserId = "";
+    const userPassword = loginData.userPassword;
+    const validationMessage = "pole wymagane";
+
+    await loginPage.loginInput.fill(emptyUserId);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginInput.blur();
+
+    await expect(loginPage.loginButton).toBeDisabled();
+    await expect(loginPage.emptyUserIdMessage).toHaveText(validationMessage);
+  });
+
+  test("unsuccessful login with empty password and correct login", async ({
+    page,
+  }) => {
+    const userId = loginData.userId;
+    const emptyUserPassword = "";
+    const validationMessage = "pole wymagane";
+
+    await loginPage.loginInput.fill(userId);
+    await loginPage.passwordInput.fill(emptyUserPassword);
+    await loginPage.passwordInput.blur();
+
+    await expect(loginPage.loginButton).toBeDisabled();
+    await expect(loginPage.emptyUserPasswordMessage).toHaveText(
+      validationMessage,
+    );
+  });
+
+  test("unsuccessful login with empty password and empty login", async ({
+    page,
+  }) => {
+    const emptyUserId = "";
+    const emptyUserPassword = "";
+    const validationMessage = "pole wymagane";
+
+    await loginPage.loginInput.fill(emptyUserId);
+    await loginPage.passwordInput.fill(emptyUserPassword);
+    await loginPage.passwordInput.blur();
+
+    await expect(loginPage.loginButton).toBeDisabled();
+    await expect(loginPage.emptyUserIdMessage).toHaveText(validationMessage);
+    await expect(loginPage.emptyUserPasswordMessage).toHaveText(
+      validationMessage,
+    );
   });
 });
