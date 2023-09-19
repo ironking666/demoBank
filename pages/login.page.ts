@@ -9,6 +9,7 @@ export class LoginPage {
   passwordError = this.page.getByTestId("error-login-password");
   emptyUserIdMessage = this.page.getByTestId("error-login-id");
   emptyUserPasswordMessage = this.page.getByTestId("error-login-password");
+  logoutButton = this.page.getByTestId("logout-button");
 
   async login(userId: string, userPassword: string): Promise<void> {
     await this.loginInput.fill(userId);
