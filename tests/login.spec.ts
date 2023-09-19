@@ -93,4 +93,16 @@ test.describe("User login to Demobank", () => {
       validationMessage,
     );
   });
+
+  test("successful logout ", async ({ page }) => {
+    const userId = loginData.userId;
+    const userPassword = loginData.userPassword;
+    const expectedUserName = "Jan Demobankowy";
+
+    await loginPage.login(userId, userPassword);
+    await loginPage.logoutButton.click();
+
+    await expect(loginPage.loginInput).toBeVisible();
+    await expect(loginPage.passwordInput).toBeVisible();
+  });
 });
