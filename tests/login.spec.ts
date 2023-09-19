@@ -72,7 +72,7 @@ test.describe("User login to Demobank", () => {
 
     await expect(loginPage.loginButton).toBeDisabled();
     await expect(loginPage.emptyUserPasswordMessage).toHaveText(
-      validationMessage,
+      validationMessage
     );
   });
 
@@ -90,14 +90,13 @@ test.describe("User login to Demobank", () => {
     await expect(loginPage.loginButton).toBeDisabled();
     await expect(loginPage.emptyUserIdMessage).toHaveText(validationMessage);
     await expect(loginPage.emptyUserPasswordMessage).toHaveText(
-      validationMessage,
+      validationMessage
     );
   });
 
   test("successful logout ", async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.userPassword;
-    const expectedUserName = "Jan Demobankowy";
 
     await loginPage.login(userId, userPassword);
     await loginPage.logoutButton.click();
