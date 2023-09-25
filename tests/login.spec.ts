@@ -72,7 +72,7 @@ test.describe("User login to Demobank", () => {
 
     await expect(loginPage.loginButton).toBeDisabled();
     await expect(loginPage.emptyUserPasswordMessage).toHaveText(
-      validationMessage
+      validationMessage,
     );
   });
 
@@ -90,7 +90,7 @@ test.describe("User login to Demobank", () => {
     await expect(loginPage.loginButton).toBeDisabled();
     await expect(loginPage.emptyUserIdMessage).toHaveText(validationMessage);
     await expect(loginPage.emptyUserPasswordMessage).toHaveText(
-      validationMessage
+      validationMessage,
     );
   });
 
