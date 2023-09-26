@@ -29,13 +29,12 @@ test.describe("Payment tests", () => {
     await paymentsPage.makeTransfer(
       transferReceiver,
       accountNumber,
-      transferAmount,
+      transferAmount
     );
     await paymentsPage.checkExpectedMessage(expect);
   });
 
   test("correct payment with address data", async ({ page }) => {
-    const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jan Nowak`;
     await paymentsPage.paymentsTab.click();
     await paymentsPage.transferReceiverInput.fill(paymentData.transferReceiver);
     await paymentsPage.accountNumberInput.fill(paymentData.accountNumber);
@@ -45,6 +44,20 @@ test.describe("Payment tests", () => {
     await paymentsPage.cityInput.fill(addressData.city);
     await paymentsPage.transferAmountInput.fill(paymentData.transferAmount);
     await paymentsPage.transferTitleInput.fill(paymentData.transferTitle);
+    await paymentsPage.executeButton.click();
+    await paymentsPage.closePaymentModalButton.click();
+
+    await paymentsPage.checkExpectedMessage(expect);
+  });
+
+  test("correct payment with email confirmation", async ({ page }) => {
+    await paymentsPage.paymentsTab.click();
+    await paymentsPage.transferReceiverInput.fill(paymentData.transferReceiver);
+    await paymentsPage.accountNumberInput.fill(paymentData.accountNumber);
+    await paymentsPage.transferAmountInput.fill(paymentData.transferAmount);
+    await paymentsPage.transferTitleInput.fill(paymentData.transferTitle);
+    await paymentsPage.emailConfirmationCheckbox.click();
+    await paymentsPage.emailInput.fill(addressData.email);
     await paymentsPage.executeButton.click();
     await paymentsPage.closePaymentModalButton.click();
 

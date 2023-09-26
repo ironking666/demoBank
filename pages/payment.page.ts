@@ -14,16 +14,17 @@ export class PaymentPage {
   zipCodeInput = this.page.getByPlaceholder("kod pocztowy, miejscowość");
   cityInput = this.page.getByPlaceholder("adres - trzecia linia");
   numberAndStreetInput = this.page.getByPlaceholder(
-    "ulica i numer domu / mieszkania",
+    "ulica i numer domu / mieszkania"
   );
   transferTitleInput = this.page.getByTestId("form_title");
-
   paymentsTab = this.page.getByRole("link", { name: "płatności" });
+  emailConfirmationCheckbox = this.page.locator("#uniform-form_is_email span");
+  emailInput = this.page.locator("#form_email");
 
   async makeTransfer(
     transferReceiver: string,
     accountNumber: string,
-    transferAmount: string,
+    transferAmount: string
   ): Promise<void> {
     await this.transferReceiverInput.fill(transferReceiver);
     await this.accountNumberInput.fill(accountNumber);
