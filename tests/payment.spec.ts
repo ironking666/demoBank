@@ -11,7 +11,7 @@ test.describe("Payment tests", () => {
   const transferReceiver = paymentData.transferReceiver;
   const accountNumber = paymentData.accountNumber;
   const transferAmount = paymentData.transferAmount;
-  //const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jan Nowak`;
+  const transferTitle = paymentData.transferTitle;
   test.beforeEach(async ({ page }) => {
     const url = "https://demo-bank.vercel.app/";
     const userId = loginData.userId;
@@ -22,11 +22,11 @@ test.describe("Payment tests", () => {
     await loginPage.login(userId, userPassword);
     const pulpitPage = new PulpitPage(page);
 
-    await pulpitPage.sideMenu.paymantButton.click();
+    await pulpitPage.sideMenu.paymentButton.click();
     paymentsPage = new PaymentPage(page);
   });
   test("simple payment", async ({ page }) => {
-    await paymentsPage.makeTransfer(
+    await paymentsPage.makeQuickTransfer(
       transferReceiver,
       accountNumber,
       transferAmount
@@ -35,32 +35,46 @@ test.describe("Payment tests", () => {
   });
 
   test("correct payment with address data", async ({ page }) => {
-    await paymentsPage.paymentsTab.click();
-    await paymentsPage.transferReceiverInput.fill(paymentData.transferReceiver);
-    await paymentsPage.accountNumberInput.fill(paymentData.accountNumber);
+    await paymentsPage.goToPaymentsAndEnterTransferData(
+      transferReceiver,
+      accountNumber,
+      transferAmount,
+      transferTitle
+    );
     await paymentsPage.addAddressForm.first().click();
     await paymentsPage.streetInput.fill(addressData.street);
     await paymentsPage.zipCodeInput.fill(addressData.zipCode);
     await paymentsPage.cityInput.fill(addressData.city);
-    await paymentsPage.transferAmountInput.fill(paymentData.transferAmount);
-    await paymentsPage.transferTitleInput.fill(paymentData.transferTitle);
-    await paymentsPage.executeButton.click();
-    await paymentsPage.closePaymentModalButton.click();
+    await paymentsPage.executeTransfer();
 
     await paymentsPage.checkExpectedMessage(expect);
   });
 
   test("correct payment with email confirmation", async ({ page }) => {
-    await paymentsPage.paymentsTab.click();
-    await paymentsPage.transferReceiverInput.fill(paymentData.transferReceiver);
-    await paymentsPage.accountNumberInput.fill(paymentData.accountNumber);
-    await paymentsPage.transferAmountInput.fill(paymentData.transferAmount);
-    await paymentsPage.transferTitleInput.fill(paymentData.transferTitle);
+    await paymentsPage.goToPaymentsAndEnterTransferData(
+      transferReceiver,
+      accountNumber,
+      transferAmount,
+      transferTitle
+    );
     await paymentsPage.emailConfirmationCheckbox.click();
     await paymentsPage.emailInput.fill(addressData.email);
-    await paymentsPage.executeButton.click();
-    await paymentsPage.closePaymentModalButton.click();
+    await paymentsPage.executeTransfer();
 
-    await paymentsPage.checkExpectedMessage(expect);
+    await paymentsPage.checkExpectedMessageFromPaymentPanel(expect);
+  });
+
+  test("correct payment and added to the recipient list", async ({ page }) => {
+    await paymentsPage.goToPaymentsAndEnterTransferData(
+      transferReceiver,
+      accountNumber,
+      transferAmount,
+      transferTitle
+    );
+    await paymentsPage.addToRecipientListCheckbox.click();
+    await paymentsPage.recipientNameInput.fill(transferReceiver);
+    await paymentsPage.executeTransfer();
+
+    await paymentsPage.checkExpectedMessageFromPaymentPanel(expect);
   });
 });

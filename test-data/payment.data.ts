@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 
 export const paymentData = {
-  transferReceiver: "Jan Nowak",
+  transferReceiver: faker.name.fullName(),
   accountNumber: faker.finance.accountNumber("XX-XXXX-XXXX-XXXX-XXXX"),
   transferAmount: faker.finance.amount(100, 2000, 0),
   transferTitle: faker.lorem.sentence(),
