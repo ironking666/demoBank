@@ -20,8 +20,12 @@ export class PaymentPage {
   paymentsTab = this.page.getByRole("link", { name: "płatności" });
   emailConfirmationCheckbox = this.page.locator("#uniform-form_is_email span");
   emailInput = this.page.locator("#form_email");
+  addToRecipientListCheckbox = this.page.locator(
+    "#uniform-form_add_receiver span"
+  );
+  recipientNameInput = this.page.locator("#form_receiver_name");
 
-  async makeTransfer(
+  async makeQuickTransfer(
     transferReceiver: string,
     accountNumber: string,
     transferAmount: string
@@ -34,7 +38,28 @@ export class PaymentPage {
   }
 
   async checkExpectedMessage(expect: any): Promise<void> {
-    const expectedMessage = `Przelew wykonany! ${paymentData.transferAmount},00PLN dla Jan Nowak`;
+    const expectedMessage = `Przelew wykonany! ${paymentData.transferAmount},00PLN dla ${paymentData.transferReceiver}`;
     await expect(this.messageText).toHaveText(expectedMessage);
+  }
+
+  async checkExpectedMessageFromPaymentPanel(expect: any): Promise<void> {
+    const expectedMessageFromPaymentPanel = `Przelew wykonany! ${paymentData.transferAmount}PLN dla ${paymentData.transferReceiver}`;
+    await expect(this.messageText).toHaveText(expectedMessageFromPaymentPanel);
+  }
+
+  async goToPaymentsAndEnterTransferData(
+    transferReceiver: string,
+    accountNumber: string,
+    transferAmount: string,
+    transferTitle: string
+  ): Promise<void> {
+    await this.transferReceiverInput.fill(paymentData.transferReceiver);
+    await this.accountNumberInput.fill(paymentData.accountNumber);
+    await this.transferAmountInput.fill(paymentData.transferAmount);
+    await this.transferTitleInput.fill(paymentData.transferTitle);
+  }
+  async executeTransfer(): Promise<void> {
+    await this.executeButton.click();
+    await this.closePaymentModalButton.click();
   }
 }
