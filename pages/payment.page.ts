@@ -24,6 +24,7 @@ export class PaymentPage {
     "#uniform-form_add_receiver span"
   );
   recipientNameInput = this.page.locator("#form_receiver_name");
+  expressOptionRadiobButton = this.page.getByLabel("ekspresowy");
 
   async makeQuickTransfer(
     transferReceiver: string,

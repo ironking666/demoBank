@@ -77,4 +77,16 @@ test.describe("Payment tests", () => {
 
     await paymentsPage.checkExpectedMessageFromPaymentPanel(expect);
   });
+  test("correct payment with express option", async ({ page }) => {
+    await paymentsPage.goToPaymentsAndEnterTransferData(
+      transferReceiver,
+      accountNumber,
+      transferAmount,
+      transferTitle
+    );
+    await paymentsPage.expressOptionRadiobButton.check();
+    await paymentsPage.executeTransfer();
+
+    await paymentsPage.checkExpectedMessageFromPaymentPanel(expect);
+  });
 });
