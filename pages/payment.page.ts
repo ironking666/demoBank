@@ -25,6 +25,8 @@ export class PaymentPage {
   );
   recipientNameInput = this.page.locator("#form_receiver_name");
   expressOptionRadiobButton = this.page.getByLabel("ekspresowy");
+  formDate = this.page.locator("#form_ico_calendar i");
+  selectedData = this.page.getByRole("link", { name: "24" });
 
   async makeQuickTransfer(
     transferReceiver: string,
