@@ -89,4 +89,17 @@ test.describe("Payment tests", () => {
 
     await paymentsPage.checkExpectedMessageFromPaymentPanel(expect);
   });
+  test("correct payment with data change", async ({ page }) => {
+    await paymentsPage.goToPaymentsAndEnterTransferData(
+      transferReceiver,
+      accountNumber,
+      transferAmount,
+      transferTitle
+    );
+    await paymentsPage.formDate.click();
+    await paymentsPage.selectedData.click();
+    await paymentsPage.executeTransfer();
+
+    await paymentsPage.checkExpectedMessageFromPaymentPanel(expect);
+  });
 });
