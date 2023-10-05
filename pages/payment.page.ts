@@ -45,11 +45,6 @@ export class PaymentPage {
     await expect(this.messageText).toHaveText(expectedMessage);
   }
 
-  async checkExpectedMessageFromPaymentPanel(expect: any): Promise<void> {
-    const expectedMessageFromPaymentPanel = `Przelew wykonany! ${paymentData.transferAmount}PLN dla ${paymentData.transferReceiver}`;
-    await expect(this.messageText).toHaveText(expectedMessageFromPaymentPanel);
-  }
-
   async goToPaymentsAndEnterTransferData(
     transferReceiver: string,
     accountNumber: string,

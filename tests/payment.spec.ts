@@ -5,6 +5,7 @@ import { PaymentPage } from "../pages/payment.page";
 import { paymentData } from "../test-data/payment.data";
 import { PulpitPage } from "../pages/pulpit.page";
 import { addressData } from "../test-data/address.data";
+import { config } from "../globalConfig";
 
 test.describe("Payment tests", () => {
   let paymentsPage: PaymentPage;
@@ -61,7 +62,7 @@ test.describe("Payment tests", () => {
     await paymentsPage.emailInput.fill(addressData.email);
     await paymentsPage.executeTransfer();
 
-    await paymentsPage.checkExpectedMessageFromPaymentPanel(expect);
+    await paymentsPage.checkExpectedMessage(expect);
   });
 
   test("correct payment and added to the recipient list", async ({ page }) => {
@@ -75,7 +76,7 @@ test.describe("Payment tests", () => {
     await paymentsPage.recipientNameInput.fill(transferReceiver);
     await paymentsPage.executeTransfer();
 
-    await paymentsPage.checkExpectedMessageFromPaymentPanel(expect);
+    await paymentsPage.checkExpectedMessage(expect);
   });
   test("correct payment with express option", async ({ page }) => {
     await paymentsPage.goToPaymentsAndEnterTransferData(
@@ -87,7 +88,7 @@ test.describe("Payment tests", () => {
     await paymentsPage.expressOptionRadiobButton.check();
     await paymentsPage.executeTransfer();
 
-    await paymentsPage.checkExpectedMessageFromPaymentPanel(expect);
+    await paymentsPage.checkExpectedMessage(expect);
   });
   test("correct payment with data change", async ({ page }) => {
     await paymentsPage.goToPaymentsAndEnterTransferData(
@@ -96,10 +97,11 @@ test.describe("Payment tests", () => {
       transferAmount,
       transferTitle
     );
+    await page.waitForTimeout(config.timeout);
     await paymentsPage.formDate.click();
     await paymentsPage.selectedData.click();
     await paymentsPage.executeTransfer();
 
-    await paymentsPage.checkExpectedMessageFromPaymentPanel(expect);
+    await paymentsPage.checkExpectedMessage(expect);
   });
 });
