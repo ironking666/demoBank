@@ -25,7 +25,7 @@ jobs:
          cache: "npm"
          registry-url: "https://npm.pkg.github.com"
      - name: Cache playwright binaries
-       uses: actions/cache@v3
+       uses: actions/cache@v4
        id: playwright-cache
        with:
          path: |
@@ -51,3 +51,11 @@ jobs:
        if: success() || failure()
        with:
           report_paths: "./playwright-report/results.xml"
+     - name: Save cache always
+       id: save-playwright-cache
+       if: always()
+       uses: actions/cache/save@v4
+       with:
+         path: |
+            ~/.cache/ms-playwright
+         key: ${{ runner.os }}-playwright
