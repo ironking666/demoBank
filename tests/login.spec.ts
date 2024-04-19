@@ -3,7 +3,7 @@ import { loginData } from "../test-data/login.data";
 import { LoginPage } from "../pages/login.page";
 import { PulpitPage } from "../pages/pulpit.page";
 
-test.describe("User login to Demobank", () => {
+test.describe("User login to Demobank @login", () => {
   let loginPage: LoginPage;
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
