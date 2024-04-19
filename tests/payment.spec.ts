@@ -7,8 +7,8 @@ import { PulpitPage } from "../pages/pulpit.page";
 import { addressData } from "../test-data/address.data";
 import { config } from "../globalConfig";
 
-test.describe("Payment tests", () => {
-  let paymentsPage: PaymentPage;
+test.describe("Payment tests @payments", () => {
+  let paymentsPage: PaymentPage
   const transferReceiver = paymentData.transferReceiver;
   const accountNumber = paymentData.accountNumber;
   const transferAmount = paymentData.transferAmount;
