@@ -136,5 +136,5 @@ jobs:
        uses: mikepenz/action-junit-report@v4
        if: success() || failure()
        with:
-           eport_paths: "./playwright-report/results.xml"  
+           export_paths: "./playwright-report/results.xml"  
 
