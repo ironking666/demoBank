@@ -5,7 +5,7 @@ import { PaymentPage } from "../pages/payment.page";
 import { PulpitPage } from "../pages/pulpit.page";
 import { paymentData } from "../test-data/payment.data";
 
-test.describe("Pulpit tests", () => {
+test.describe("Pulpit tests @pulpit", () => {
   let pulpitPage: PulpitPage;
   let paymentsPage: PaymentPage;
   test.beforeEach(async ({ page }) => {
@@ -32,9 +32,6 @@ test.describe("Pulpit tests", () => {
     );
     await paymentsPage.closePaymentModalButton.click();
 
-    //await expect(paymentsPage.quickPaymentMessage).toHaveText(
-    //`Przelew wykonany! ${expectedTransferReceiver} - ${quickPaymentTransferAmount},00PLN - ${transferTitle}`
-    //);
     await expect(paymentsPage.messageText).toBeVisible();
     await expect(paymentsPage.messageText).not.toBeEmpty();
   });
