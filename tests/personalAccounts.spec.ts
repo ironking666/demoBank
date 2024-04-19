@@ -5,7 +5,7 @@ import { PaymentPage } from "../pages/payment.page";
 import { PulpitPage } from "../pages/pulpit.page";
 import { PersonalAccountsPage } from "../pages/personalAccounts.page";
 
-test.describe("Personal accounts tab tests", () => {
+test.describe("Personal accounts tab tests @personalAccount", () => {
   let personalAccountsPage: PersonalAccountsPage;
 
   test.beforeEach(async ({ page }) => {
