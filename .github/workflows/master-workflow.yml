@@ -1,0 +1,23 @@
+name: Playwright Tests - Master workflow to trigger other workflows
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+
+permissions: # needed, because we need permissions in one of steps in child workflow (run-tests.yml)
+  contents: read
+  checks: write
+  id-token: write
+
+
+jobs:
+  running-tests:
+    strategy:
+      # fail-fast is true by default
+      fail-fast: false
+    uses: ./.github/workflows/simple-jobs.yml # calls other workflow
+    with:
+      version: 18
+    secrets: inherit
