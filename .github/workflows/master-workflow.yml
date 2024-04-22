@@ -19,5 +19,5 @@ jobs:
       fail-fast: false
     uses: ./.github/workflows/simple-jobs.yml # calls other workflow
     with:
-      version: 18
+      version: 20
     secrets: inherit
