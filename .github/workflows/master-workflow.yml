@@ -11,7 +11,6 @@ permissions: # needed, because we need permissions in one of steps in child work
   checks: write
   id-token: write
 
-
 jobs:
   running-tests:
     strategy:
